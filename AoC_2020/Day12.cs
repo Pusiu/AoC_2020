@@ -47,6 +47,7 @@ namespace AoC_2020
 				}
 
 			}
+			Console.WriteLine($"Part 1: {Math.Abs(x) + Math.Abs(y)}");
 
 			x = 0;
 			y = 0;
@@ -119,36 +120,21 @@ namespace AoC_2020
 
 		public void Rotate(int amount)
 		{
-			if (amount > 0)
-				direction = (Directions)((int)(direction + amount) % 360);
-			else
+			int a = Math.Abs(amount);
+			int d = (int)direction;
+			while (a > 0)
 			{
-				amount = Math.Abs(amount);
-				int d = (int)direction;
-				while (amount > 0)
-				{
-					d -= 1;
-					if (d < 0)
-						d += 360;
+				d += (amount > 0) ? 1 : -1;
+				if (d < 0)
+					d += 360;
 
-					amount -= 1;
-				}
-				direction = (Directions)((d) % 360);
+				a -= 1;
 			}
+			direction = (Directions)((d) % 360);
 		}
 
 		public void RotateWp(int amount)
 		{
-			/*double a = amount * Math.PI / 180;
-			int rx;
-			int ry;
-
-			rx = (wp.x * (int)Math.Cos(a) - wp.y * (int)Math.Sin(a));
-			ry = (wp.x * (int)Math.Sin(a) + wp.y * (int)Math.Cos(a));
-
-			wp.x = rx;
-			wp.y = ry;*/
-
 			int newx = wp.x;
 			int newy = wp.y;
 
@@ -163,50 +149,8 @@ namespace AoC_2020
 
 				amount -= 90;
 				direction = (Directions)((d) % 360);
-				if (clockwise)
-				{
-					switch (direction)
-					{
-						case Directions.N:
-							newx = wp.y;
-							newy = -wp.x;
-							break;
-						case Directions.E:
-							newx = wp.y;
-							newy = -wp.x;
-							break;
-						case Directions.S:
-							newx = wp.y;
-							newy = -wp.x;
-							break;
-						case Directions.W:
-							newx = wp.y;
-							newy = -wp.x;
-							break;
-					}
-				}
-				else
-				{
-					switch (direction)
-					{
-						case Directions.N:
-							newx = -wp.y;
-							newy = wp.x;
-							break;
-						case Directions.W:
-							newx = -wp.y;
-							newy = wp.x;
-							break;
-						case Directions.S:
-							newx = -wp.y;
-							newy = wp.x;
-							break;
-						case Directions.E:
-							newx = -wp.y;
-							newy = wp.x;
-							break;
-					}
-				}
+				newx = (clockwise) ? wp.y : -wp.y;
+				newy = (clockwise) ? -wp.x : wp.x;
 				wp.x = newx;
 				wp.y = newy;
 			}
