@@ -47,32 +47,23 @@ namespace AoC_2020
 			int m = adapters.Max();
 			adapters.Insert(adapters.IndexOf(m)+1, m + 3);
 
-			List<int> everyThree = new List<int>();
+			Dictionary<int, long> paths = new Dictionary<int, long>();
 			foreach (int a in adapters)
+				paths.Add(a, 0);
+			paths[0]=1;
+
+			foreach (int adapter in adapters)
 			{
-
-			}
-
-			Console.WriteLine($"Part 2: {p2(0,adapters)}");
-		}
-
-		Dictionary<int, int> paths = new Dictionary<int, int>();
-		int p2(int k, List<int> a)
-		{
-			int p = 0;
-			int i = a.IndexOf(k);
-			for (int j=1; j <=3; j++)
-			{
-				if (i+j < a.Count)
+				for (int i=1; i < 4; i++)
 				{
-					if (a[i + j] - k == 3 ||
-						a[i + j] - k == 2 ||
-						a[i + j] - k == 1)
-						p++;
+					int nextAdapter = adapter + i;
+					if (adapters.Contains(nextAdapter))
+						paths[nextAdapter] += paths[adapter];
 				}
 			}
-			return p;
+			Console.WriteLine($"Part 2: {paths[adapters.Max()]}");
 
 		}
+
 	}
 }
